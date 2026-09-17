@@ -113,6 +113,11 @@ a:hover {
 }
 
 /* Global navbar styling */
+
+.global-nav{
+  display: none;
+}
+
 .global-header{
   background-color: var(--bs-black);
   color: white;
@@ -210,7 +215,10 @@ a:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-.park-nav svg
+.park-nav svg{
+  width: 24px;
+  height: 24px;
+}
 
 /* Skip links styling */
 .skip-links ul {
