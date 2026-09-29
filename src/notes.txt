@@ -1,0 +1,6 @@
+code we made last week own function
+
+use map to loop thorugh media cards
+
+refactoring moves things around, takes javascript make own module
+
