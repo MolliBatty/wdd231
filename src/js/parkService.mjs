@@ -220,6 +220,17 @@ export async function getParkData() {
 
 }
 
+export async function getAlertData(parkCode) {
+  const alertData = await getJson(`alerts?parkCode=${parkCode}`);
+  return alertData.data;
+}
+
+export async function getVisitorCenterData(parkCode) {
+  const visitorCenterData = await getJson(`visitorcenters?parkCode=${parkCode}`);
+  return visitorCenterData.data;
+}
+
+
 async function getJson(url){
   const options = {
     method: "GET",

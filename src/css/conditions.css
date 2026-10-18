@@ -1,0 +1,20 @@
+:root{
+    --alert-closure: #cb2027;
+    --alert-caution: #ed7e31;
+    --alert-information: #2451a9;
+    --alert-danger: #720f04;
+}
+#alerts ul{
+    list-style: none;
+    padding: 0;
+}
+
+.alert{
+    display: flex;
+    gap: 1rem;
+}
+.alert .icon{
+    height: 2rem;
+    width: 2rem;
+    flex-shrink: 0;
+}
