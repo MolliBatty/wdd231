@@ -19,7 +19,7 @@ async function main(){
 
 function setAlerts(alerts){
     const alertsSection = document.querySelector("#alerts");
-    alertsSection.insertAdjacentHTML("beforeend", `<ul>${alerts.map(alertTemplate).join("")}</ul>`)
+    alertsSection.insertAdjacentHTML("beforeend", `<ul>${alerts.map(alertTemplate).join("")}</ul>`);
 }
 
 function setVisitorCenters(centers){
@@ -29,7 +29,7 @@ function setVisitorCenters(centers){
 
 function setActivities(activities){
   const activitiesSection = document.querySelector(".activities-list");
-  activitiesSection.insertAdjacentHTML("beforeend", activities.map(activityTemplate).join(""))
+  activitiesSection.insertAdjacentHTML("beforeend", activities.map(activityTemplate).join(""));
 }
 
 main();
