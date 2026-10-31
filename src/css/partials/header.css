@@ -23,6 +23,7 @@
 .global-header .icon{
   width: 20px;
   height: 20px;
+  fill: white;
 }
 
 .global-header__right{
@@ -104,6 +105,10 @@
 .park-nav svg{
   width: 24px;
   height: 24px;
+}
+
+.park-nav .icon{
+  fill: currentColor;
 }
 
 /* Skip links styling */
