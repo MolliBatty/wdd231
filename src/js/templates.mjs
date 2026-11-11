@@ -42,7 +42,6 @@ export function footerTemplate(info) {
 
 export function alertTemplate(alert) {
   let alertType = "";
-  // most of the alerts are one word and line up with the icons nicely. "Park Closure" is the exception
   switch (alert.category) {
     case "Park Closure":
       alertType = "closure";
