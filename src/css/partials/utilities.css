@@ -13,8 +13,10 @@
   overflow: hidden;
 }
 
+.disclaimer {
+  padding: 0 1em;
+}
 
-/* alerts */
 .alert-information {
   color: var(--alert-information);
 }
@@ -26,4 +28,12 @@
 }
 .alert-caution {
   color: var(--alert-caution);
+}
+
+.hide {
+  display: none;
+}
+
+.rotate {
+  transform: rotate(180deg);
 }

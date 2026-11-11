@@ -1,35 +1,44 @@
-import { getParkData, getAlertData, getVisitorCenterData} from "./parkService.mjs";
-import { alertTemplate, vcTemplate, activityTemplate } from "./templates.mjs";
-import setHeaderFooter from "./setHeaderFooter.mjs";
 import "../css/style.css";
 import "../css/conditions.css";
+import {
+  getParkData,
+  getParkAlerts,
+  getParkVisitorCenters
+} from "./parkService.mjs";
+import {
+  activityListTemplate,
+  alertTemplate,
+  visitorCenterTemplate
+} from "./templates.mjs";
+import setHeaderFooter from "./setHeaderFooter.mjs";
 
-async function main(){
+function setAlerts(alerts) {
+  const alertsContainer = document.querySelector(".alerts > ul");
+  alertsContainer.innerHTML = "";
+  const html = alerts.map(alertTemplate);
+  alertsContainer.insertAdjacentHTML("afterbegin", html.join(""));
+}
+
+function setVisitorCenters(centers) {
+  const centersContainer = document.querySelector(".visitor ul");
+  const html = centers.map(visitorCenterTemplate);
+  centersContainer.insertAdjacentHTML("afterbegin", html.join(""));
+}
+
+function setActivities(activities) {
+  const activitiesContainer = document.querySelector(".activities ul");
+  const html = activityListTemplate(activities);
+  activitiesContainer.insertAdjacentHTML("afterbegin", html);
+}
+
+async function init() {
   const parkData = await getParkData();
+  const alerts = await getParkAlerts(parkData.parkCode);
+  const visitorCenters = await getParkVisitorCenters(parkData.parkCode);
   setHeaderFooter(parkData);
-
-  const alerts = await getAlertData(parkData.parkCode);
   setAlerts(alerts);
-
-  const visitorcenter = await getVisitorCenterData(parkData.parkCode);
-  setVisitorCenters(visitorcenter);
-
+  setVisitorCenters(visitorCenters);
   setActivities(parkData.activities);
 }
 
-function setAlerts(alerts){
-    const alertsSection = document.querySelector("#alerts");
-    alertsSection.insertAdjacentHTML("beforeend", `<ul>${alerts.map(alertTemplate).join("")}</ul>`);
-}
-
-function setVisitorCenters(centers){
-  const centersSection = document.querySelector(".vs-list");
-  centersSection.insertAdjacentHTML("beforeend", centers.map(vcTemplate).join(""));
-}
-
-function setActivities(activities){
-  const activitiesSection = document.querySelector(".activities-list");
-  activitiesSection.insertAdjacentHTML("beforeend", activities.map(activityTemplate).join(""));
-}
-
-main();
+init();

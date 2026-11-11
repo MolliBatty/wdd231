@@ -1,5 +1,3 @@
-const baseUrl = "https://developer.nps.gov/api/v1/";
-const apiKey = import.meta.env.VITE_NPS_API_KEY;
 const park = {
   id: "F58C6D24-8D10-4573-9826-65D42B8B83AD",
   url: "https://www.nps.gov/yell/index.htm",
@@ -90,14 +88,14 @@ const park = {
       title: "Black Pool",
       altText: "A visitor stands on a boardwalk near a hot spring and a lake.",
       caption: "Black Pool at the West Thumb Geyser Basin",
-      url: "/images/C58775A9-C067-845D-B68CF80F484EF8FA.jpg"
+      url: "https://www.nps.gov/common/uploads/structured_data/3C7D383B-1DD8-B71B-0BEC4A4D6BDF7CAD.jpg"
     },
     {
       credit: "NPS/Jim Peaco",
       title: "Beehive Geyser",
       altText: "People on a wooden boardwalk watch a geyser erupt.",
       caption: "Visitors to the Upper Geyser Basin watch Beehive Geyser erupt.",
-      url: "/images/F3CF233A-D445-364D-EC4CD06A498E4F91.jpg"
+      url: "https://www.nps.gov/common/uploads/structured_data/3C7D334F-1DD8-B71B-0B108C7771F4E854.jpg"
     },
     {
       credit: "NPS/Jim Peaco",
@@ -143,7 +141,7 @@ const park = {
       title: "Bighorn sheep",
       altText: "Two bighorn sheep laying on the ground.",
       caption: "Two bighorn rams rest and chew their cud",
-      url: "/images/20171128-dmr-5011_sm.jpg"
+      url: "https://www.nps.gov/common/uploads/structured_data/3C7D95DD-1DD8-B71B-0BC4FA19BD72F0EC.jpg"
     },
     {
       credit: "NPS/Diane Renkin",
@@ -180,73 +178,66 @@ const park = {
   name: "Yellowstone",
   designation: "National Park"
 };
-
-
-
-
-export const parkInfoLinks = [
+const parkInfoLinks = [
   {
     name: "Current Conditions &#x203A;",
     link: "conditions.html",
+    image: park.images[2].url,
     description:
       "See what conditions to expect in the park before leaving on your trip!"
-
   },
   {
     name: "Fees and Passes &#x203A;",
     link: "fees.html",
+    image: park.images[3].url,
     description: "Learn about the fees and passes that are available."
   },
   {
     name: "Visitor Centers &#x203A;",
     link: "visitor_centers.html",
-    description: "Learn about the visitor centers in the park"
+    image: park.images[9].url,
+    description: "Learn about the visitor centers in the park."
   }
 ];
 
+const baseUrl = "https://developer.nps.gov/api/v1/";
+const apiKey = import.meta.env.VITE_NPS_API_KEY;
 
-export function getInfoLinks(images) {
-  return parkInfoLinks.map((link, index) => ({
-    ...link,
-    image: images[index].url,
-  }));
-
-}
-
-
-export async function getParkData() {
-  const parkData = await getJson("parks?parkCode=yell");
-  return parkData.data[0];
-
-}
-
-export async function getAlertData(parkCode) {
-  const alertData = await getJson(`alerts?parkCode=${parkCode}`);
-  return alertData.data;
-}
-
-export async function getVisitorCenterData(parkCode) {
-  const visitorCenterData = await getJson(`visitorcenters?parkCode=${parkCode}`);
-  return visitorCenterData.data;
-}
-
-
-async function getJson(url){
+async function getJson(url) {
   const options = {
     method: "GET",
     headers: {
-      "X-Api-Key": apiKey,
+      "X-Api-Key": apiKey
     }
-  }
-
-    let data = {};
-
-  const response = await fetch(baseUrl+url, options);
-
-    if (response.ok){
+  };
+  let data = {};
+  const response = await fetch(baseUrl + url, options);
+  if (response.ok) {
     data = await response.json();
   } else throw new Error("response not ok");
-  return data
-
+  return data;
 }
 
+export function getInfoLinks(data) {
+  // Why index + 2 below? no real reason. we don't want index 0 since that is the one we used for the banner...I decided to skip an image.
+  const withUpdatedImages = parkInfoLinks.map((item, index) => {
+    item.image = data[index + 2].url;
+    return item;
+  });
+  return withUpdatedImages;
+}
+
+export async function getParkData() {
+  const parkData = await getJson("parks?parkCode=yell ");
+  return parkData.data[0];
+}
+
+export async function getParkAlerts(code) {
+  const parkData = await getJson(`alerts?parkCode=${code}`);
+  return parkData.data;
+}
+
+export async function getParkVisitorCenters(code) {
+  const parkData = await getJson(`visitorcenters?parkCode=${code}`);
+  return parkData.data;
+}

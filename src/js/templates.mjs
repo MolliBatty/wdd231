@@ -1,31 +1,30 @@
-import spritePath from '../images/sprite.symbol.svg';
+import spritePath from "../images/sprite.symbol.svg";
+
 export function parkInfoTemplate(info) {
-  return `<a href="#" class="hero-banner__title">${info.name}</a>
+  return `<a href="/" class="hero-banner__title">${info.name}</a>
     <p class="hero-banner__subtitle">
-        <span>${info.designation}</span>
-        <span>${info.states}</span>
+      <span>${info.designation}</span>
+      <span>${info.states}</span>
     </p>`;
 }
 
 export function mediaCardTemplate(info) {
   return `<div class="media-card">
     <a href="${info.link}">
-        <img src="${info.image}" alt="${info.name}" class="media-card__img">
-        <h3 class="media-card__title">${info.name}</h3>
+    <img src="${info.image}" alt="${info.name}" class="media-card__img">
+    <h3 class="media-card__title">${info.name}</h3>
     </a>
-    <p>${info.description}</p>
-  </div>`;
+   <p>${info.description}</p>
+     </div>`;
 }
-
 function getMailingAddress(addresses) {
-  return addresses.find((address) => address.type === "Mailing");
+  const mailing = addresses.find((address) => address.type === "Mailing");
+  return mailing;
 }
-
 function getVoicePhone(numbers) {
   const voice = numbers.find((number) => number.type === "Voice");
   return voice.phoneNumber;
 }
-
 export function footerTemplate(info) {
   const mailing = getMailingAddress(info.addresses);
   const voice = getVoicePhone(info.contacts.phoneNumbers);
@@ -33,38 +32,42 @@ export function footerTemplate(info) {
   return `<section class="contact">
     <h3>Contact Info</h3>
     <h4>Mailing Address:</h4>
-    <div><p>${mailing.line1}</p>
+    <div><p>${mailing.line1}<p>
     <p>${mailing.city}, ${mailing.stateCode} ${mailing.postalCode}</p></div>
     <h4>Phone:</h4>
     <p>${voice}</p>
-  </section>`;
+  </section>
+    `;
 }
 
-export function alertTemplate(alert){
+export function alertTemplate(alert) {
   let alertType = "";
-  if (alert.category === "Park Closure"){
-    alertType = "closure";
-  } else{
-    alertType = alert.category.toLowerCase();
+  // most of the alerts are one word and line up with the icons nicely. "Park Closure" is the exception
+  switch (alert.category) {
+    case "Park Closure":
+      alertType = "closure";
+      break;
+    default:
+      alertType = alert.category.toLowerCase();
   }
   return `<li class="alert">
-    <svg class="icon" focusable="false" aria-hidden="true">
-    <use xlink:href="${spritePath}#alert-${alertType}"></use></svg>
-    <div>
-      <h3 class="alert-${alertType}">${alert.title}</h3>
-      <p>${alert.description}</p>
-    </div>
+  <svg class="icon" focusable="false" aria-hidden="true">
+    <use xlink:href="${spritePath}#alert-${alertType}"></use>
+  </svg>
+  <div>
+    <h3 class="alert-${alertType}">${alert.title}</h3>
+    <p>${alert.description}</p>
+  </div></li>`;
+}
+
+export function visitorCenterTemplate(center) {
+  return `<li class="visitor-center">
+  <h4>${center.name}</h4>
+  <p>${center.description}</p>
+  <p>${center.directionsInfo}</p>
   </li>`;
 }
 
-export function vcTemplate(center){
-  return `<li class="center">
-    <h3>${center.name}</h3>
-    <p>${center.description}</p>
-    <p>${center.directionsInfo}</p>
-    </li>`;
-}
-
-export function activityTemplate(activity){
-  return `<li class="activity">${activity.name}</li>`;
+export function activityListTemplate(activities) {
+  return activities.map((activity) => `<li>${activity.name}</li>`).join("");
 }
